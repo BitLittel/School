@@ -1,0 +1,104 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="col-md-12" id="parent_retard">
+        <script src="{{ url_for('static', filename='js/ckeditor/ckeditor.js') }}"></script>
+        {% if error %}
+            <div class="alert alert-info" role="alert" id="retard_alarm">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true" onclick="document.getElementById('parent_retard').removeChild(document.getElementById('retard_alarm'))">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <strong> {{ error }} </strong>
+            </div>
+        {% endif %}
+        <div class="row">
+            <form class="form-horizontal" method="POST">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Редактор урока</strong></h3>
+                    </div>
+                    <div class="panel-body form-group-separated">
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Название</label>
+                            <div class="col-md-6 col-xs-12">
+                                <input class="form-control" name="name" value="{{ name }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Содержание</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <textarea class="form-control" rows="5" name="edit_content" id="edit_content" required>{{ edit_content }}</textarea>
+                                </div>
+                            </div>
+                            <script>CKEDITOR.replace('edit_content');</script>
+                        </div>
+                        {% if lesson.homework_type == 'homework' %}
+                            <div class="form-group" id="type_homework">
+                                <label class="col-md-3 col-xs-12 control-label">Домашняя работа</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <textarea class="form-control" rows="5" name="edit_homework" id="edit_homework">{{ edit_homework }}</textarea>
+                                    </div>
+                                </div>
+                                <script>CKEDITOR.replace('edit_homework');</script>
+                            </div>
+                        {% endif %}
+                        {% if lesson.homework_type == 'test' %}
+                            <div class="form-group" id="type_test">
+                                <label class="col-md-3 col-xs-12 control-label">Тест</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div id="test_form_group_homework">
+                                        <div id="div_for_test">
+                                            <input type="number" name="persent_for_test" value="{{ lesson.persent_for_test }}" class="form-control" placeholder="Процент прохождения теста..." title="Процент прохождения теста (Вводите данные без знака '%')">
+                                            <span class="help-block">Процент прохождения теста (Вводите данные без знака '%')</span>
+                                            <br>
+                                            <input type="number" name="test_in_day" value="{{ lesson.test_in_day }}" class="form-control" placeholder="Количество попыток в день..." title="Количество попыток в день">
+                                            <span class="help-block">Количество попыток в день</span>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        {% set q = [] %}
+                                        {% set a = ['1'] %}
+                                        <ul style="padding-left: 20px;">
+                                            {% for les in lesson.test %}
+                                                <li type="1">
+                                                    <p>
+                                                        <label>Вопрос:
+                                                            <input type="text" value="{{ les['quest'] }}" name="quest" class="form-control" style="width: 250px;">
+                                                        </label>
+                                                    </p>
+                                                    <ul style="margin-left: 20px;">
+                                                        {% for answer in les['answers'] %}
+                                                            <li type="1">
+                                                                <label>
+                                                                    <input type="radio" name="right_{{ q|length }}" value="{{ a|length }}" {{ 'checked' if les['right'] == a|length|string }} style="float: left;">
+                                                                    <input name="answer_{{ q|length }}" value="{{ answer }}" class="form-control" style="width: 250px;">
+                                                                    {% if a.append('1') %}{% endif %}
+                                                                </label>
+                                                            </li>
+                                                        {% endfor %}
+                                                        {% if a.clear() %}{% endif %}
+                                                        {% if a.append('1') %}{% endif %}
+                                                    </ul>
+                                                </li>
+                                                {% if q.append('1') %}{% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-default" form="delete">Удалить урок</button>
+                        <button class="btn btn-primary pull-right">Сохранить</button>
+                    </div>
+                </div>
+            </form>
+            <form method="POST" id="delete">
+                <input type="hidden" name="del" value="del">
+            </form>
+        </div>
+    </div>
+{% endblock %}

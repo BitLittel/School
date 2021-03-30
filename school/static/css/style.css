@@ -1,0 +1,122 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: 0;
+}
+
+input, textarea, button {
+    border: 1px solid #000;
+}
+
+.main {
+    width: 195px;
+    position: absolute;
+    top: 25%;
+    left: 40%;
+    background: #9a9b9c;
+    border-radius: 3px;
+    box-shadow: 0 0 16px rgba(0, 0, 0, .5);
+}
+
+.login {
+    padding: 10px;
+}
+
+header {
+    z-index: 99;
+    position: fixed;
+    height: 60px;
+    text-align: right;
+    display: inline-flex;
+    width: 100%;
+    background: sandybrown;
+}
+
+.logo {
+    margin: 0 43% 0 43%;
+    padding: 21px 21px;
+}
+
+.search {
+    padding: 21px 21px;
+    float: right;
+}
+
+.left_content {
+    position: absolute;
+    top: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: #eee;
+    z-index: 99;
+}
+
+.wrap_left_content {
+    z-index: 99999;
+    width: 200px;
+    background: #fff;
+    height: 100%;
+}
+
+.text {
+    padding-top: 10px;
+}
+
+.block {
+    padding-top: 20px;
+    height: 60px;
+    text-align: center;
+}
+
+.block:hover {
+    background-color: orange;
+}
+
+.jj {
+    padding: 21px 21px;
+}
+
+.jj:hover {
+    background-color: aqua;
+}
+
+.center_content {
+    padding-top: 60px;
+}
+
+.input_add_sub {
+    border: solid 1px #000;
+}
+
+.cke {
+    width: 590px;
+}
+
+.Error404 {
+margin-top: 15%;
+}
+
+.curse {
+    margin: 5% 37% 0% 37%;
+    width: 24%;
+}
+
+.center {
+    margin: 1% 37% 0% 37%;
+    width: 24%;
+}
+
+.one_percent_top {
+    margin: 1% 0 0 0;
+    width: 24%;
+}
+.far_center {
+        margin: 1% 30% 0 30%;
+        width: 40%;
+}
+.center50 {
+    margin: 1% 30% 0 40%;
+    width: 30%;
+}

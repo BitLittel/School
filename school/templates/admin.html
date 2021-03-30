@@ -1,0 +1,83 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="row" id="parent_retard">
+        {% if error %}
+            <div class="alert alert-info" role="alert" id="retard_alarm">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true" onclick="document.getElementById('parent_retard').removeChild(document.getElementById('retard_alarm'))">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <strong> {{ error }} </strong>
+            </div>
+        {% endif %}
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="pull-left">Коммисия: {{ setting.commission }}</h3>
+                    <a class="btn btn-primary pull-right" href="{{ url_for('list_withdraw') }}">Список средств на вывод</a>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6">
+                        <h3>Изменение коммисии</h3>
+                        <form method="POST">
+                            <div class="form-group">
+                                <input type="hidden" value="1" name="commission_1">
+                                <input class="form-control" type="number"  name="commission" value="{{ commission }}">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success btn-block">Сохранить</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <h3>Добавление нового направления</h3>
+                        <form method="POST">
+                            <div class="form-group">
+                                <input type="hidden" value="2" name="new_way_2">
+                                <input class="form-control" name="new_way" value="{{ new_way }}">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success btn-block">Добавить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="pull-left">Направления</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group border-bottom">
+                        {% for l in all_ways %}
+                            <li class="list-group-item">{{ l.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="pull-left">Пользователи</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>id</th><th>Login</th><th>E-mail</th><th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for au in all_users %}
+                                    <tr>
+                                        <td>{{ au.id }}</td><td>{{ au.login }}</td><td>{{ au.email }}</td><td>{{ au.user_balance() }} руб.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

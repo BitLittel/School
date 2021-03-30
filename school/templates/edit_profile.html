@@ -1,0 +1,63 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="row" id="parent_retard">
+        {% if error %}
+            <div class="alert alert-info" role="alert" id="retard_alarm">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true" onclick="document.getElementById('parent_retard').removeChild(document.getElementById('retard_alarm'))">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <strong> {{ error }} </strong>
+            </div>
+        {% endif %}
+        <div class="col-md-12">
+            <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Редактор профиля</strong></h3>
+                    </div>
+                    <div class="panel-body form-group-separated">
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Введите новый никнейм:</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    <input value="{{ new_login }}" class="form-control" name="new_login">
+                                </div>
+                                <span class="help-block">Только латинские символы, спец символы и цифры</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Немного о себе: </label>
+                            <div class="col-md-6 col-xs-12">
+                                <textarea class="form-control" rows="5" name="about_us">{{ about_us }}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Фото</label>
+                            <div class="col-md-6 col-xs-12">
+                                <a class="file-input-wrapper btn btn-default  fileinput btn-primary"><input type="file" value="{{ photo }}" class="fileinput btn-primary" name="photo" id="filename" title="Загрузить Фото" accept="image/*"></a>
+                                <span class="help-block">Загрузить фотографию в формате *.jpg, *.jpeg, *.png</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Пароль</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-unlock-alt"></span></span>
+                                    <input type="password" class="form-control" name="password" required pattern="^[a-zA-Z0-9]+$">
+                                </div>
+                                <span class="help-block">Введите свой пароль чтобы изменения вступили в силу</span>
+                            </div>
+                        </div>
+                        <p><a href="{{ url_for('chang_pass') }}">Хотите изменить пароль?</a></p>
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-default">Очистить Форму</button>
+                        <button class="btn btn-primary pull-right">Сохранить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

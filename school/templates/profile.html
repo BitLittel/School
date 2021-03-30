@@ -1,0 +1,151 @@
+{% extends "index.html" %}
+{% block content %}
+    <div class="row" style="margin-top: 8px;">
+        <div class="col-md-5">
+            <div class="widget widget-default widget-item-icon">
+                <div class="widget-item-left">
+                    <span class="fa fa-rub"></span>
+                </div>
+                <div class="widget-data">
+                    <div class="widget-int num-count">{{ current_user.user_balance() }} Руб.</div>
+                    {% if tarif %}
+                        <div class="widget-title">Тариф <strong>"{{ tarif.name }}"</strong></div>
+                        <div class="widget-subtitle">до {{ current_user.subscript[tarif.id][1].strftime("%d.%m.%Y") }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-bottom: 20px;">
+                <a href="{{ url_for('refill') }}" style="text-decoration: none;">
+                    <button class="btn btn-success btn-block"><i class="fa fa-rouble"></i> Пополнить счёт</button>
+                </a>
+            </div>
+            <div class="col-md-6" style="margin-bottom: 20px;">
+                <a href="{{ url_for('withdraw') }}" style="text-decoration: none;">
+                    <button class="btn btn-success btn-block"><i class="fa fa-money"></i> Вывод средств</button>
+                </a>
+            </div>
+            <div class="panel panel-default" style="border-top: 1px solid #d6d6d6;">
+                <div class="panel-heading">
+                    <div class="panel-title-box">
+                        <h3>Подписки</h3>
+                    </div>
+                    <ul class="panel-controls" style="margin-top: 2px;">
+                        <li><a href="#" class="panel-fullscreen"><span class="fa fa-expand"></span></a></li>
+                    </ul>
+                </div>
+
+                <div class="panel-body panel-body-table">
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="50%">Курс</th>
+                                    <th width="50%">Статус</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for one in subscripts %}
+                                    <tr>
+                                        <td><a href="{{ url_for('cur_course', course_id=one.id) }}"><strong>{{ one.name }}</strong></a></td>
+                                        <td>{% if current_user.id == one.user_id %}Действует &#8734; {% else %}Действует {{ 'до ' ~ current_user.sub_course[one.id][1].strftime('%d.%m.%Y') if not one.infinity else 'постоянно' }}{% endif %}</td>
+                                    </tr>
+                                {%  endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-12">
+                <a href="{{ url_for('edit_profile') }}">
+                    <button class="btn btn-default btn-block">
+                        <i class="fa fa-gear"></i> Редактор профиля
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title-box">
+                        <h3>Транзакции<a href="{{ url_for('transfer') }}">*перевод</a></h3>
+                    </div>
+                    <ul class="panel-controls" style="margin-top: 2px;">
+                        <li><a href="#" class="panel-fullscreen"><span class="fa fa-expand"></span></a></li>
+                    </ul>
+                </div>
+                <div class="panel-body panel-body-table">
+
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="20%">Дата</th>
+                                    <th width="25%">Сумма</th>
+                                    <th width="55%">Комментарий</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for one in transactions %}
+                                    <tr class="{{ 'success' if one.price > 0 else 'danger' }}">
+                                        <td>{{ one.data.strftime('%d.%m.%Y') }} в {{ one.data.strftime('%H:%M:%S') }}</td>
+                                        <td><strong>{{ one.price }} руб.</strong></td>
+                                        <td style="text-overflow: ellipsis; white-space: nowrap" title="{{ one.text }}">{{ one.text }}</td>
+                                    </tr>
+                                {%  endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#{% extends "index.html" %}#}
+{#{% block content %}#}
+{#    {% if current_user.admin %}#}
+{#        <a href="{{ url_for('admin') }}">admin</a>#}
+{#    {% endif %}#}
+{#    <div>#}
+{#        <p>Логин: {{ current_user.login }}</p>#}
+{#        <p>#}
+{#            <img src="{{ url_for('static', filename='img/250/'~current_user.user_photo().photo) }}" alt="Not Found">#}
+            {# если фото нахуй то пихать сюда ^ current_user.avatar(250) #}
+{#        </p>#}
+{#        <p>О себе: {{ current_user.about_us or ''}}</p>#}
+{#    </div>#}
+{#    <div>#}
+{#        <p>Тарифы</p>#}
+{#        {% for t in tarif %}#}
+{#            <a href="{{ url_for('subscript_id', sub_id = t.id) }}">{{ t.name }}</a>#}
+{#        {% else %}#}
+{#            <p>Приобретённых тарифов нет</p>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#    <p>#}
+{#        <span>Баланс: {{ current_user.user_balance() }} руб.</span>#}
+{#        <span><a href="{{ url_for('refill') }}">Пополнить счёт</a></span>#}
+{#        <span><a href="{{ url_for('transfer') }}">Перевести средства</a></span>#}
+{#        <span><a href="{{ url_for('withdraw') }}">Вывод средств</a></span>#}
+{#    </p>#}
+{#    <p><a href="{{ url_for('edit_profile') }}">Редактор профиля</a></p>#}
+{#    <a href="{{ url_for('logout') }}">Выход</a>#}
+{#    <div style="border: 1px solid #000; width: 800px;">#}
+{#        {% for t in all_trans %}#}
+{#                <p>{{ t.text }}</p>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#{% endblock %}#}

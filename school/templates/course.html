@@ -1,0 +1,63 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Мои курсы</h3>
+                    <a class="btn btn-primary pull-right" href="{{ url_for('add_course') }}">Создать Курс</a>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group border-bottom">
+                        {% for mc in my_course %}
+                            <a href="{{ url_for('cur_course', course_id=mc.id) }}" class="list-group-item">{{ mc.name }}</a>
+                        {% else %}
+                            <p class="list-group-item">Ваших курсов пока нет.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Приобретённые курсы</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group border-bottom">
+                        {% for sc in sub_course %}
+                            <a href="{{ url_for('cur_course', course_id=sc.id) }}" class="list-group-item">{{ sc.name }}</a>
+                        {% else %}
+                            <p class="list-group-item">Приобритённых курсов нет.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <form class="form-horizontal filter" method="GET">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Все курсы</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Направления</label>
+                            <div class="col-md-6 col-xs-12">
+                                <select class="form-control select" style="display: none;" name="way">
+                                    {% for aw in all_ways %}
+                                        <option value="{{ aw.name }}">{{ aw.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="list-group border-bottom" id="all_course">
+                            {% for al in all_course %}
+                                <a class="list-group-item" href="{{ url_for('cur_course', course_id=al.id) }}">{{ al.name }}</a>
+                            {% else %}
+                                <p class="list-group-item">Курсов пока нет.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script>UpdateCurseList();</script>
+    </div>
+{% endblock %}

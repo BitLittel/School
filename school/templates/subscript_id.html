@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="col-md-12">
+    <div class="row" id="parent_retard">
+        {% if error %}
+            <div class="alert alert-info" role="alert" id="retard_alarm">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true" onclick="document.getElementById('parent_retard').removeChild(document.getElementById('retard_alarm'))">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <strong> {{ error }} </strong> <a href="{{ url_for('refill') }}">Пополнить?</a>
+            </div>
+        {% endif %}
+        <form method="POST" class="panel panel-default">
+            <div class="panel-heading"><h3>{{ current_sub.name }}  ({{ current_sub.price }} руб.)</h3></div>
+            <div class="panel-body">
+                <div class="panel-body form-group-separated">
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-5 control-label">На какой срок (месяцев):</label>
+                        <div class="col-md-9 col-xs-7">
+                            <input type="number" name="month" value="{{ month }}" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-primary">Купить</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

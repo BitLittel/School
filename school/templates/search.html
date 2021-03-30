@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <form class="form-horizontal search_f" method="GET" onsubmit="return false">
+                <div class="panel-body">
+                    <div class="list-group border-bottom">
+                        <div class="form-group">
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                                    <input class="form-control" name="search" value="{{ search }}" id="search">
+                                </div>
+                                <span class="help-block">Поиск пользовательй по логину и почте</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="panel panel-default">
+                <div class="panel-body list-group list-group-contacts" id="list_user"></div>
+            </div>
+        </div>
+    </div>
+    <script>Search();</script>
+</div>
+{% endblock %}

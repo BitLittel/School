@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru" class="body-full-height">
+    <head>
+        <title>Изменение пароля</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="{{ url_for("static", filename='favicon.ico') }}" type="image/x-icon" />
+        <link rel="stylesheet" type="text/css" id="theme" href="{{ url_for('static', filename='css/theme-default.css') }}"/>
+    </head>
+    <body>
+        <div class="login-container login-v2">
+            <div class="login-box animated fadeInDown">
+                <div class="login-logo"></div>
+                <div class="login-body" id="parent_retard">
+                    {% if error %}
+                        <div class="alert alert-info" role="alert" id="retard_alarm">
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span aria-hidden="true" onclick="document.getElementById('parent_retard').removeChild(document.getElementById('retard_alarm'))">×</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <strong> {{ error }} </strong>
+                        </div>
+                    {% endif %}
+                    <div class="login-title"><strong>Изменение пороля</strong></div>
+                    <form class="form-horizontal" method="POST">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <span class="fa fa-key"></span>
+                                    </div>
+                                    <input type="password" name="password" class="form-control" placeholder="Пароль" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <span class="fa fa-lock"></span>
+                                    </div>
+                                    <input type="password" class="form-control" name="email" placeholder="Введите новый пороль" required/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <span class="fa fa-lock"></span>
+                                    </div>
+                                    <input type="password" class="form-control" placeholder="Введите новый пороль повторно" name="login" required/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group push-up-30">
+                            <div class="col-md-6">
+                                <button class="btn btn-danger btn-block">Изменить</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="registration-footer">
+                    <div class="pull-left">
+                        © 2016 Innovation-SCHOOL
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

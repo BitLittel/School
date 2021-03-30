@@ -1,0 +1,38 @@
+.scrolls_my::-webkit-scrollbar-button {
+    background: no-repeat;
+    width:6px;
+    height:0
+}
+
+.scrolls_my::-webkit-scrollbar-track {
+    background-color:#fff;
+}
+
+.scrolls_my::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background: #add6ff;
+}
+
+.scrolls_my::-webkit-resizer{
+    background: no-repeat;
+    width:7px;
+    height:0
+}
+
+.scrolls_my::-webkit-scrollbar{
+    width: 11px;
+}
+
+.text{
+    word-wrap: break-word;
+}
+
+.textarea_dialog {
+    outline: 0;
+    resize: none;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    line-height: 17px;
+}

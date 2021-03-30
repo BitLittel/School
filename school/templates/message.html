@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="col-md-10">
+        <div class="messages scrolls_my" style="margin: 20px 10%; overflow: auto; max-height: 570px;">
+            {% for ad in all_dialog %}
+                <div class="item item-visible">
+                    <div class="text">
+                        <div class="heading">
+                            {% if ad.user_login == current_user.login %}
+                                <a href="{{ url_for('dialog', user_login=ad.user) }}">{{ ad.user }}</a>
+                            {% else %}
+                                <a href="{{ url_for('dialog', user_login=ad.user_login) }}">{{ ad.user_login }}</a>
+                            {% endif %}
+                            <span class="date">{{ ad.time.strftime('%d.%m.%Y') }} в {{ ad.time.strftime('%H:%M:%S') }}</span>
+                        </div>
+                        {% if ad.user_login == current_user.login %}
+                            <p style="{{ 'background-color: #0f74a8' if ad.wait }}">{{ current_user.login }}: {{ (ad.text[:30]~'...' if ad.text|length > 30 else ad.text)|safe }}</p>
+                        {% else %}
+                            <p style="{{ 'background-color: #0f74a8' if ad.wait }}">{{ (ad.text[:30]~'...' if ad.text|length > 30 else ad.text)|safe }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ c_course.name }}</h3>
+                    {% if current_user.admin or current_user.id == c_course.user_id  %}
+                        <a style="margin-right: 4px;" class="btn btn-primary pull-right" href="{{ url_for('edit_course', id_course=c_course.id) }}">Редактиовать курс</a>
+                        <a style="margin-right: 4px;" class="btn btn-primary pull-right" href="{{ url_for('list_students_course', course_id=c_course.id) }}">Список учеников</a>
+                        <a style="margin-right: 4px;" class="btn btn-primary pull-right" href="{{ url_for('add_lesson', course_id=c_course.id) }}">Создать урок</a>
+                        <a style="margin-right: 4px;" class="btn btn-primary pull-right" href="{{ url_for('list_homework', course_id=c_course.id) }}">Домашняя работа на проверку</a>
+                        <a style="margin-right: 4px;" class="btn btn-primary pull-right" href="{{ url_for('add_blog', course_id=c_course.id) }}">Написать блог</a>
+                    {% endif %}
+                    {% if c_course.id in current_user.follow %}
+                        <a style="margin-right: 4px;" class="btn btn-primary pull-right" href="{{ url_for('unfollow_school', course_id=c_course.id) }}">Отписаться</a>
+                    {% else %}
+                        <a style="margin-right: 4px;" class="btn btn-primary pull-right" href="{{ url_for('follow_school', course_id=c_course.id) }}">Подписаться</a>
+                    {% endif %}
+                </div>
+                <div class="panel-body">{{ c_course.text|safe }}</div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Подписка</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6">
+                        {% if not check %}
+                            {% if c_course.infinity %}
+                                <a href="{{ url_for('buy_course', id_course=c_course.id) }}" class="btn btn-primary">Приобрести пожизненую подписку</a>
+                            {% else %}
+                                <a href="{{ url_for('buy_course', id_course=c_course.id) }}" class="btn btn-primary">Приобрести помесячную подписку</a>
+                            {% endif %}
+                        {% else %}
+                            <p><a href="{{ url_for('buy_course', id_course=c_course.id) }}" class="btn btn-primary">Продлить помесячную подписку</a></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Уроки</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="dd" id="nestable">
+                                <ol class="dd-list" data-id_course="{{ c_course.id }}" id="parent" onselectstart="return false">
+                                    {% for alcc in all_lesson_cur_course %}
+                                        {% if current_user.admin or current_user.id == c_course.user_id  %}
+                                             <li class="dd-item lesson" data-num_less="{{ alcc.id }}">
+                                            <div class="dd-handle lesson_content">
+                                                <span class="number_less">{{ alcc.number }}</span>: <a href="{{ url_for('lesson', course_id=c_course.id, lesson_id=alcc.id) }}">{{ alcc.name }}</a>
+                                                <a class="pull-right" href="{{ url_for('list_students_lesson', course_id=c_course.id, lesson_number=alcc.number) }}">Список учеников</a>
+                                            </div>
+                                        </li>
+                                        {% else %}
+                                            <li class="dd-item">
+                                                <div class="dd-handle lesson_content">
+                                                    <span class="number_less">{{ alcc.number }}</span>: <a href="{{ url_for('lesson', course_id=c_course.id, lesson_id=alcc.id) }}">{{ alcc.name }}</a>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                    {% else %}
+                                        <li class="dd-item"><div class="dd-handle">Уроков нет</div></li>
+                                    {% endfor %}
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Новости курса</h3>
+                </div>
+                <div class="panel-body post">
+                    {% for ab in all_blog %}
+                        <div class="panel panel-default">
+                            <div class="panel-body posts">
+                                <div class="col-md-12">
+                                    <div class="post-item">
+                                        <div class="post-title">
+                                            <a href="{{ url_for('blog', blog_id=ab.id) }}">{{ ab.subject }}</a>
+                                        </div>
+
+                                        <div class="post-date"><a href="{{ url_for('cur_course', course_id=ab.id) }}">{{ ab.name }}</a></div>
+
+                                        <div class="post-text">
+                                            {{ (ab.text[:100]~'...' if ab.text|length > 100 else ab.text)|safe }}
+                                        </div>
+                                        <div class="post-row">
+                                            <a href="{{ url_for('blog', blog_id=ab.id) }}" class="btn btn-default btn-rounded pull-right">Читать далее</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <script src="{{ url_for('static', filename='js/drag_and_drop.js') }}"></script>
+    </div>
+{% endblock %}

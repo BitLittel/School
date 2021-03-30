@@ -1,0 +1,126 @@
+{% extends "index.html" %}
+{% block content %}
+    <div class="row" id="parent_retard">
+        {% if error %}
+            <div class="alert alert-info" role="alert" id="retard_alarm">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true" onclick="document.getElementById('parent_retard').removeChild(document.getElementById('retard_alarm'))">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <strong> {{ error }} </strong>
+            </div>
+        {% endif %}
+        <div class="col-md-12">
+            <div class="page-title">
+                <h2>Урок №{{ lesson.number }}: {{ lesson.name }}</h2>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">{{ lesson.content|safe }}</div>
+            </div>
+            {% if lesson.homework_type == 'free' %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Домашнее задание</h3>
+                    </div>
+                    <div class="panel-body">
+                        Урок без ДЗ
+                    </div>
+                </div>
+            {% endif %}
+            {% if lesson.homework_type == 'homework' %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Домашнее задание</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{ lesson.homework|safe }}
+                    </div>
+                </div>
+            {% endif %}
+            {% if lesson.homework_type == 'test' %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Тест</h3>
+                    </div>
+                </div>
+            {% endif %}
+            <form class="panel panel-default form-horizontal" method="POST">
+                {% if chcl == None or chcl.wait == 0 and chcl.done == 0 %}
+                    {% if current_user.id != course.user_id or not current_user.admin %}
+                        {% if lesson.homework_type == 'test' %}
+                            <div class="panel-body">
+                                {% set q = [] %}
+                                {% set a = ['1'] %}
+                                <ul style="padding-left: 20px;">
+                                    {% for les in lesson.test %}
+                                        <li type="1">
+                                            <span>{{ les['quest'] }}</span>
+                                            <ul style="margin-left: 20px;">
+                                                {% for answer in les['answers'] %}
+                                                    <li type="1">
+                                                        <label>
+                                                            <input type="radio" name="right_{{ q|length }}" value="{{ a|length }}" checked> {{ answer }}
+                                                            {% if a.append('1') %}{% endif %}
+                                                        </label>
+                                                    </li>
+                                                {% endfor %}
+                                                {% if a.clear() %}{% endif %}
+                                                {% if a.append('1') %}{% endif %}
+                                            </ul>
+                                        </li>
+                                        {% if q.append('1') %}{% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        {% if lesson.homework_type == 'homework' %}
+                            <div class="panel-heading">
+                                <h3>Сдать домашнее задание</h3>
+                            </div>
+                            <div class="panel-body">
+                                <textarea name="homework" id="homework" cols="30" rows="10" class="form-control">{{ homework }}</textarea>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    {% if current_user.id == course.user_id or current_user.admin %}
+                        <div class="panel-footer">
+                            <div class="form-group">
+                                <a class="btn btn-primary btn-rounded pull-right" href="{{ url_for('edit_lesson', course_id=lesson.cours_id, lesson_id=lesson.id) }}">Редактировать Урок</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="panel-footer">
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-rounded pull-right">Завершить</button>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                {% if chcl.wait == 1 %}
+                    <div class="panel-body">
+                        <h3>Ваше задание сейчас на проверке. Пожалуйста, ожидайте.</h3>
+                    </div>
+                    {% if current_user.admin or current_user.id == lesson.user_id %}
+                        <div class="panel-footer">
+                            <div class="form-group">
+                                <a class="btn btn-primary btn-rounded pull-right" href="{{ url_for('edit_lesson', course_id=lesson.cours_id, lesson_id=lesson.id) }}">Редактировать Урок</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                {% if chcl.done == 1 %}
+                    <div class="panel-body">
+                        <h3>Урок пройден успешно!</h3>
+                    </div>
+                    {% if current_user.admin or current_user.id == lesson.user_id %}
+                        <div class="panel-footer">
+                            <div class="form-group">
+                                <a class="btn btn-primary btn-rounded pull-right" href="{{ url_for('edit_lesson', course_id=lesson.cours_id, lesson_id=lesson.id) }}">Редактировать Урок</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

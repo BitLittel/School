@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title pull-left">Тарифы</h3>
+        {% if current_user.admin %}
+            <a href="{{ url_for('add_sub') }}" class="btn btn-primary pull-right">Создать подиску</a>
+        {% endif %}
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Цена</th>
+                        <th>Описание</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for sub in all_subs %}
+                    <tr class="info">
+                        <td>{{ sub.name }}</td>
+                        <td>{{ sub.price }} руб.</td>
+                        <td>{{ sub.about_sub }}</td>
+                        <td><a href="{{ url_for('subscript_id', sub_id = sub.id) }}" class="btn btn-primary">Купить</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

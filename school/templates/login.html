@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru" class="body-full-height">
+    <head>
+        <title>Авторизация</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="{{ url_for("static", filename='favicon.ico') }}" type="image/x-icon" />
+        <link rel="stylesheet" type="text/css" id="theme" href="{{ url_for('static', filename='css/theme-default.css') }}"/>
+    </head>
+    <body>
+    <div class="login-container login-v2">
+        <div class="login-box animated fadeInDown">
+            <div class="login-logo"></div>
+            <div class="login-body" id="parent_retard">
+                <div class="login-title"><strong>Добро пожаловать</strong>, авторизуйтесь.</div>
+                {% if error %}
+                    <div class="alert alert-info" role="alert" id="retard_alarm">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true" onclick="document.getElementById('parent_retard').removeChild(document.getElementById('retard_alarm'))">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <strong> {{ error }} </strong>
+                    </div>
+                {% endif %}
+                <form class="form-horizontal" method="POST">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <span class="fa fa-user"></span>
+                                </div>
+                                <input type="email" name="email" class="form-control" placeholder="E-mail" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <span class="fa fa-lock"></span>
+                                </div>
+                                <input type="password" name="password" class="form-control" placeholder="Пароль" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+    {#                    <div class="col-md-6">#}
+    {#                        <a href="#">Forgot your password?</a>#}
+    {#                    </div>          #}
+                        <div class="col-md-6 text-right">
+                            <a href="{{ url_for('reg_user') }}">Зарегистрироваться</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary btn-lg btn-block">Войти</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="login-footer">
+                <div class="row">
+                    © 2016 Innovation-SCHOOL
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

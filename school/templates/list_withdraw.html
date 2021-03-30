@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary" style="margin-top: 10px;">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Список средств на вывод</h3>
+                </div>
+                {% for at in all_trans %}
+                    <div class="panel-body">
+                        <p>{{ at.text }}</p>
+                        <p>Дата: {{ at.data }}</p>
+                    </div>
+                    <div class="panel-footer">
+                        <form method="POST" style="float: left; width: 50%;">
+                            <input type="hidden" value="{{ at.id }}" name="pass">
+                            <button class="btn btn-danger">Отколонить</button>
+                        </form>
+                        <form method="POST" style="float: right; width: 50%;">
+                            <input type="hidden" value="{{ at.id }}" name="accept">
+                            <button class="btn btn-success pull-right">Потвердить</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <div class="panel-body">
+                        <p>Пусто</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

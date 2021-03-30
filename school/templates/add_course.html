@@ -1,0 +1,72 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="row" id="parent_retard">
+        {% if error %}
+            <div class="alert alert-info" role="alert" id="retard_alarm">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true" onclick="document.getElementById('parent_retard').removeChild(document.getElementById('retard_alarm'))">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <strong> {{ error }} </strong>
+            </div>
+        {% endif %}
+        <script src="{{ url_for('static', filename='js/ckeditor/ckeditor.js') }}"></script>
+        <div class="col-md-12">
+            <form class="form-horizontal" method="POST">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Создание курса</strong></h3>
+                    </div>
+                    <div class="panel-body form-group-separated">
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Название курса</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    <input class="form-control" name="name" value="{{ name }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Описание курса</label>
+                            <div class="col-md-6 col-xs-12">
+                                <textarea class="form-control" rows="5" name="text" id="text">{{ text }}</textarea>
+                            </div>
+                            <script>CKEDITOR.replace('text');</script>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Введите цену подписки</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    <input class="form-control" name="price" value="{{ price }}" type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Выберете направления</label>
+                            <div class="col-md-6 col-xs-12">
+                                <select class="form-control select" style="display: none;" name="direction_name">
+                                    {% for aw in all_ways %}
+                                        <option value="{{ aw.name }}">{{ aw.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Подписка</label>
+                            <div class="col-md-6 col-xs-12">
+                                <label><input type="radio" name="infinity" value="0" checked>Помесячная</label>
+                                <label><input type="radio" name="infinity" value="1">Навсегда</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-default">Очистить форму</button>
+                        <button class="btn btn-primary pull-right">Сохранить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

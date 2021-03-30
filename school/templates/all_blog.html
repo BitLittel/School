@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="col-md-12">
+    <div class="row">
+        {% for ab in all_blog %}
+            <div class="panel panel-default">
+                <div class="panel-body posts">
+                    <div class="col-md-12">
+                        <div class="post-item">
+                            <div class="post-title">
+                                <a href="{{ url_for('blog', blog_id=ab.id) }}">{{ ab.subject }}</a>
+                            </div>
+                            <div class="post-date"><a href="{{ url_for('cur_course', course_id=ab.id) }}">{{ ab.name }}</a></div>
+                            <div class="post-text">
+                                {{ (ab.text[:100]~'...' if ab.text|length > 100 else ab.text)|safe }}
+                            </div>
+                            <div class="post-row">
+                                <a href="{{ url_for('blog', blog_id=ab.id) }}" class="btn btn-default btn-rounded pull-right">Читать далее</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

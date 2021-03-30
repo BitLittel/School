@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="row" id="parent_retard">
+        <script src="{{ url_for('static', filename='js/ckeditor/ckeditor.js') }}"></script>
+        {% if error %}
+            <div class="alert alert-info" role="alert" id="retard_alarm">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true" onclick="document.getElementById('parent_retard').removeChild(document.getElementById('retard_alarm'))">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <strong> {{ error }} </strong>
+            </div>
+        {% endif %}
+        <div class="col-md-12">
+            <form class="form-horizontal" method="POST">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Редактор блога</strong></h3>
+                    </div>
+                    <div class="panel-body form-group-separated">
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Тема</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    <input class="form-control" id="subject" name="subject" value="{{ subject }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Содержание</label>
+                            <div class="col-md-6 col-xs-12">
+                                <textarea class="form-control" rows="5" name="text" id="text">{{ text }}</textarea>
+                                <span class="help-block">Default textarea field</span>
+                            </div>
+                        </div>
+                        <script>CKEDITOR.replace('text');</script>
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-default">Очистить форму</button>
+                        <button class="btn btn-primary pull-right">Сохранить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

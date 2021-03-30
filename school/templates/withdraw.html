@@ -1,0 +1,56 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="row" id="parent_retard">
+        {% if error %}
+            <div class="alert alert-info" role="alert" id="retard_alarm">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true" onclick="document.getElementById('parent_retard').removeChild(document.getElementById('retard_alarm'))">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <strong> {{ error }} </strong>
+            </div>
+        {% endif %}
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-md-4">
+                        <div class="widget widget-default widget-item-icon" style="background: none; box-shadow: none; border-right: 1px solid rgba(0, 0, 0, 0.1)">
+                            <div class="widget-item-left">
+                               <span class="fa fa-rub"></span>
+                            </div>
+                            <div class="widget-data">
+                                <div class="widget-title"><strong>Вашь Баланс: </strong></div>
+                                <div class="widget-int num-count">{{ current_user.user_balance() }} Руб.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h3>Перевод: </h3>
+                        <form method="POST">
+                            <div class="form-group">
+                                <label>Кол-во средств вывести: </label>
+                                <input class="form-control" type="number" name="price" value="{{ price }}">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success btn-block">Вывести</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Примечания</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group border-bottom">
+                        <li class="list-group-item">Минемальная сумма вывода 100 рублей</li>
+                        <li class="list-group-item">После того как вы успешно выполнете вывод, с вас спишутся средства, в случаи отказа вашего вывода вам вернут средства</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

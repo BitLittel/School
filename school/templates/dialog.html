@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="row" id="parent_retard">
+        <script src="{{ url_for('static', filename='js/autosize.js') }}"></script>
+        {% if error %}
+            <div class="alert alert-info" role="alert" id="retard_alarm">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true" onclick="document.getElementById('parent_retard').removeChild(document.getElementById('retard_alarm'))">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <strong> {{ error }} </strong>
+            </div>
+        {% endif %}
+        <div class="col-md-7" style="margin: 5px 18%">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ check_user.login|safe }}</h3>
+                </div>
+                <div class="panel-body scrolls_my" style="overflow: auto;" id="scrolls_down">
+                    <div class="col-md-12" style="max-height: 430px; padding: 10px">
+                        <div class="messages messages-img" id="all_mess"></div>
+                    </div>
+                </div>
+                <div class="panel-body" style="border-top: 1px solid #E5E5E5;">
+                    <form class="form-horizontal" onsubmit="return false;">
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <textarea style="max-height: 90px;" id="text_area" name="mess" class="scrolls_my form-control textarea_dialog" rows="1" cols="40" placeholder="Напишите сообщение..."></textarea>
+                            </div>
+                            <a class="btn btn-info col-md-2" onclick="no_reload_mess('{{ check_user.login|safe }}');">Отправить</a>
+                        </div>
+                    </form>
+                    <script>
+                        autosize(document.getElementById('text_area'));
+                        var kek = setInterval(function(){update_mess('{{ check_user.login|safe }}', '{{ cur_user_avatar }}', '{{ user_avatar }}')}, 3000);
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var lol = setTimeout(function () {
+            var block = document.getElementById("scrolls_down");
+            block.scrollTop = block.scrollHeight;
+        }, 1200);
+    </script>
+{% endblock %}

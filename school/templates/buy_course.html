@@ -1,0 +1,40 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="row" id="parent_retard">
+        {% if error %}
+            <div class="alert alert-info" role="alert" id="retard_alarm">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true" onclick="document.getElementById('parent_retard').removeChild(document.getElementById('retard_alarm'))">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <strong> {{ error }} </strong>
+            </div>
+        {% endif %}
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="pull-left">Цена курса: {{ cur_buy_course.price }}</h3>
+                </div>
+                <div class="panel-body">
+                    <form method="POST" class="form-horizontal">
+                        {% if not cur_buy_course.infinity %}
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-12 control-label">Введите кол-во месяцев</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <input class="form-control" id="subject" type="number" name="month" value="{{ month }}">
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="panel-footer">
+                            <button class="btn btn-default">Очистить форму</button>
+                            <button class="btn btn-primary pull-right">Купить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+syntax: glob
+/.idea
+.idea
+/config.py
+/school/__pycache__
+*.pyc
